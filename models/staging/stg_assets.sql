@@ -4,7 +4,6 @@ WITH raw_assets AS (SELECT * FROM {{ ref('assets') }}),
 
 assets AS (
     SELECT
-        asset_id,
         CAST(created_at AS TIMESTAMP) AS created_at,
         CAST(face_value AS NUMERIC) AS face_value,
         CAST(settled_at AS TIMESTAMP) AS settled_at,
@@ -19,4 +18,4 @@ assets AS (
         AND face_value != 0
 )
 
-SELECT * FROM assets;
+SELECT * FROM assets

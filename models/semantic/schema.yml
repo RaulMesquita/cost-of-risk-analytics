@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: time_spine
+    description: "Daily date spine required by MetricFlow for time-aware semantic models."
+    time_spine:
+      standard_granularity_column: date_day
+    columns:
+      - name: date_day
+        description: "One row per day; the primary date field."
+        granularity: day
+      - name: date_month
+        description: "Month extracted from date_day."
+      - name: date_year
+        description: "Year extracted from date_day."

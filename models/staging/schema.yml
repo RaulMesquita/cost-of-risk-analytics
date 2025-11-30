@@ -5,11 +5,6 @@ models:
   - name: stg_assets
     description: "Staging dos assets"
     columns:
-      - name: asset_id
-        description: "Unique identifier for each asset in the transactional dataset."
-        tests:
-          - not_null
-          - unique
       - name: face_value
         description: "Original financial value of the asset."
         tests:
@@ -32,8 +27,8 @@ models:
   - name: stg_ratings
     description: "Staging dos ratings"
     columns:
-      - name: buyer_tax_id
-        description: "Buyer identifier used to link ratings to assets."
+      - name: tax_id
+        description: "Tax identifier."
         tests:
           - not_null
       - name: rating

@@ -8,7 +8,7 @@ WITH enriched AS (SELECT * FROM {{ ref('int_assets_pit') }}),
 
 provisioned AS (
     SELECT
-        cohort_month,
+        CAST(DATE_TRUNC(created_at, MONTH) AS DATE) AS cohort_month,
         seller_name,
         buyer_state AS segment,
         face_value,

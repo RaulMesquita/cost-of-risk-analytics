@@ -6,7 +6,7 @@ r AS (SELECT * FROM {{ ref('stg_ratings')}}),
 
 ratings_pit AS (
     SELECT
-        CAST(DATE_TRUNC(a.created_at, MONTH) AS DATE) AS cohort_month,
+        a.created_at,
         a.face_value,
         a.settled_at,
         a.due_date,

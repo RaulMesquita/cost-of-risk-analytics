@@ -7,7 +7,7 @@ ratings AS (
         tax_id,
         rating,
         created_at,
-        LEAD(rating_created_at) OVER (PARTITION BY tax_id ORDER BY created_at) AS next_rating_ts
+        LEAD(created_at) OVER (PARTITION BY tax_id ORDER BY created_at) AS next_rating_ts
     FROM r
 )
 

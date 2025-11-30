@@ -1,0 +1,43 @@
+version: 2
+
+semantic_models:
+  - name: cost_of_risk_semantic_model
+    model: ref('mart_cost_of_risk')
+    entities:
+      - name: cohort_month
+        type: primary
+
+      - name: segment
+        type: primary
+
+      - name: seller_name
+        type: primary
+
+    dimensions:
+      - name: cohort_month
+        type: time
+        type_params:
+          time_granularity: month
+        config: 
+          meta:
+            data_owner: "Credit team"
+        is_partition: True
+
+      - name: segment
+        type: categorical
+
+      - name: seller_name
+        type: categorical
+
+    measures:
+      - name: cost_of_risk
+        agg: sum
+        expr: cost_of_risk
+
+      - name: total_face_value
+        agg: sum
+        expr: total_face_value
+
+      - name: avg_provision_rate
+        agg: average
+        expr: avg_provision_rate

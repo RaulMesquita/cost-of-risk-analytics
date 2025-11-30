@@ -1,0 +1,27 @@
+version: 2
+
+models:
+
+  - name: mrt_cost_of_risk
+    description: "Mart final consolidado da métrica Cost of Risk"
+    columns:
+      - name: cohort_month
+        description: "Monthly cohort of asset origination."
+      - name: segment
+        description: "Buyer geographic or business segment used for aggregation."
+      - name: seller_name
+        description: "Name of the asset originator."
+      - name: total_face_value
+        description: "Total face value of all assets in the group."
+      - name: cost_of_risk
+        description: |
+          Total Cost of Risk for the group.
+          Calculated as: face_value * provision_rate.
+        tests:
+          - not_null
+      - name: avg_provision_rate
+        description: |
+          Average provision rate across assets in the group.
+          Reflects the weighted credit risk severity.
+      - name: n_assets
+        description: "Count of unique assets included in the aggregation."

@@ -12,14 +12,6 @@ semantic_models:
         type: primary
         expr: risk_id
 
-      - name: segment
-        type: foreign
-        expr: segment
-
-      - name: seller_name
-        type: foreign
-        expr: seller_name
-
     dimensions:
       - name: cohort_month
         description: "Month of cohort grouping"

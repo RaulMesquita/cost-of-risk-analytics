@@ -18,10 +18,10 @@ ratings_pit AS (
     FROM a
     LEFT JOIN r
         ON a.buyer_tax_id = r.tax_id
-        AND r.rating_created_at <= a.created_at
+        AND r.created_at <= a.created_at
     QUALIFY ROW_NUMBER() OVER (
         PARTITION BY a.buyer_tax_id, a.created_at
-        ORDER BY r.rating_created_at DESC
+        ORDER BY r.created_at DESC
     ) = 1
 )
 

@@ -35,5 +35,5 @@ models:
         description: "Credit risk rating assigned to the buyer."
         tests:
           - not_null
-      - name: rating_created_at
+      - name: created_at
         description: "Timestamp when this rating was assigned to the buyer."

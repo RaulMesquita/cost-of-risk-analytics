@@ -5,8 +5,6 @@ models:
   - name: int_assets
     description: "Assets com rating point-in-time"
     columns:
-      - name: asset_id
-        description: "Unique identifier for each asset in the transactional dataset."
       - name: created_at
         description: "Timestamp when the asset was created (origination date)."
       - name: face_value

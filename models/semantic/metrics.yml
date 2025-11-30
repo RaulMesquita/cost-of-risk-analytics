@@ -3,29 +3,27 @@ version: 2
 semantic_models:
   - name: cost_of_risk_semantic_model
     model: ref('mrt_cost_of_risk')
+    defaults:
+      agg_time_dimension: cohort_month
+
     entities:
-      - name: cohort_month
+      - name: cost_record
         type: primary
-
+        expr: risk_id
       - name: segment
-        type: primary
-
+        type: foreign
+        expr: segment
       - name: seller_name
-        type: primary
+        type: foreign
+        expr: seller_name
 
     dimensions:
       - name: cohort_month
         type: time
         type_params:
           time_granularity: month
-        config: 
-          meta:
-            data_owner: "Credit team"
-        is_partition: True
-
       - name: segment
         type: categorical
-
       - name: seller_name
         type: categorical
 
@@ -33,11 +31,9 @@ semantic_models:
       - name: cost_of_risk
         agg: sum
         expr: cost_of_risk
-
       - name: total_face_value
         agg: sum
         expr: total_face_value
-
       - name: avg_provision_rate
         agg: average
         expr: avg_provision_rate

@@ -8,7 +8,6 @@ WITH enriched AS (SELECT * FROM {{ ref('int_assets') }}),
 
 provisioned AS (
     SELECT
-        asset_id,
         cohort_month,
         seller_name,
         buyer_state AS segment,
@@ -20,7 +19,7 @@ provisioned AS (
 
         CASE
             WHEN LOWER(collection_status) LIKE '%settled%' THEN 0.0
-            WHEN settled_at IS NULL AND DATE_DIFF(created_at, due_date, day) > 30 THEN 1.0
+            WHEN settled_at IS NULL AND DATE_DIFF(DATE(created_at), due_date, day) > 30 THEN 1.0
             WHEN origin_rating = 'A' THEN 0.01
             WHEN origin_rating = 'B' THEN 0.05
             WHEN origin_rating = 'C' THEN 0.10
@@ -47,4 +46,3 @@ GROUP BY
     cohort_month,
     segment,
     seller_name
-ORDER BY cohort_month DESC;

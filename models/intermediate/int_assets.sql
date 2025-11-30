@@ -6,7 +6,6 @@ r AS (SELECT * FROM {{ ref('stg_ratings')}}),
 
 ratings_pit AS (
     SELECT
-        a.asset_id,
         a.created_at,
         a.face_value,
         a.settled_at,
@@ -18,18 +17,18 @@ ratings_pit AS (
         r.rating as origin_rating,
 
         ROW_NUMBER() OVER (
-            PARTITION BY a.asset_id
+            PARTITION BY a.buyer_tax_id
             ORDER BY r.rating_created_at DESC
         ) AS rn
 
     FROM a
     LEFT JOIN r
-        ON a.buyer_tax_id = r.buyer_tax_id
+        ON a.buyer_tax_id = r.tax_id
         AND r.rating_created_at <= a.created_at
+    QUALIFY rn = 1
 )
 
 SELECT
-    asset_id,
     created_at,
     face_value,
     settled_at,
@@ -39,6 +38,5 @@ SELECT
     buyer_state,
     collection_status,
     origin_rating,
-    DATE_TRUNC(created_at, MONTH) AS cohort_month
+    CAST(DATE_TRUNC(created_at, MONTH) AS DATE) AS cohort_month
 FROM ratings_pit
-QUALIFY rn = 1;

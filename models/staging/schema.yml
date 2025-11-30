@@ -1,0 +1,44 @@
+version: 2
+
+models:
+
+  - name: stg_assets
+    description: "Staging dos assets"
+    columns:
+      - name: asset_id
+        description: "Unique identifier for each asset in the transactional dataset."
+        tests:
+          - not_null
+          - unique
+      - name: face_value
+        description: "Original financial value of the asset."
+        tests:
+          - not_null
+      - name: created_at
+        description: "Timestamp when the asset was created (origination date)."
+      - name: settled_at
+        description: "Timestamp when the asset was settled. Null indicates unpaid."
+      - name: due_date
+        description: "Date when the asset was due. Used to determine overdue status."
+      - name: buyer_tax_id
+        description: "Unique identifier for the buyer, used to match historical ratings."
+      - name: seller_name
+        description: "Name of the seller (originator) of the asset."
+      - name: buyer_state
+        description: "Geographical segment of the buyer, used for aggregation."
+      - name: collection_status
+        description: "Status of the asset's repayment or collection."
+
+  - name: stg_ratings
+    description: "Staging dos ratings"
+    columns:
+      - name: buyer_tax_id
+        description: "Buyer identifier used to link ratings to assets."
+        tests:
+          - not_null
+      - name: rating
+        description: "Credit risk rating assigned to the buyer."
+        tests:
+          - not_null
+      - name: rating_created_at
+        description: "Timestamp when this rating was assigned to the buyer."

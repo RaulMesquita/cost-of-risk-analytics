@@ -3,6 +3,7 @@ version: 2
 semantic_models:
   - name: cost_of_risk_semantic_model
     model: ref('mrt_cost_of_risk')
+
     defaults:
       agg_time_dimension: cohort_month
 
@@ -10,30 +11,67 @@ semantic_models:
       - name: cost_record
         type: primary
         expr: risk_id
+
       - name: segment
         type: foreign
         expr: segment
+
       - name: seller_name
         type: foreign
         expr: seller_name
 
     dimensions:
       - name: cohort_month
+        description: "Month of cohort grouping"
         type: time
         type_params:
           time_granularity: month
+
       - name: segment
+        description: "Segment identifier for risk records"
         type: categorical
+
       - name: seller_name
+        description: "Name of the seller associated with the risk record"
         type: categorical
 
     measures:
       - name: cost_of_risk
+        label: "Cost of Risk"
+        description: "Sum of cost_of_risk column for each record"
         agg: sum
         expr: cost_of_risk
+
       - name: total_face_value
+        label: "Total Face Value"
+        description: "Sum of total_face_value column for each record"
         agg: sum
         expr: total_face_value
+
       - name: avg_provision_rate
+        label: "Avg Provision Rate"
+        description: "Average of avg_provision_rate column for each record"
         agg: average
         expr: avg_provision_rate
+
+metrics:
+  - name: cost_of_risk
+    label: "Cost of Risk"
+    description: "Total cost of risk — sum of cost_of_risk measure."
+    type: simple
+    type_params:
+      measure: cost_of_risk
+
+  - name: total_face_value
+    label: "Total Face Value"
+    description: "Total face value — sum of total_face_value measure."
+    type: simple
+    type_params:
+      measure: total_face_value
+
+  - name: avg_provision_rate
+    label: "Average Provision Rate"
+    description: "Average provision rate — same as avg_provision_rate measure."
+    type: simple
+    type_params:
+      measure: avg_provision_rate

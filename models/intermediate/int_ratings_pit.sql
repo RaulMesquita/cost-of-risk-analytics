@@ -6,8 +6,8 @@ ratings AS (
     SELECT
         tax_id,
         rating,
-        rating_created_at,
-        LEAD(rating_created_at) OVER (PARTITION BY buyer_tax_id ORDER BY rating_created_at) AS next_rating_ts
+        created_at,
+        LEAD(rating_created_at) OVER (PARTITION BY tax_id ORDER BY created_at) AS next_rating_ts
     FROM r
 )
 

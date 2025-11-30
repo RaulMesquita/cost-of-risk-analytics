@@ -4,7 +4,7 @@
     cluster_by=["segment", "seller_name"]
 ) }}
 
-WITH enriched AS (SELECT * FROM {{ ref('int_assets') }}),
+WITH enriched AS (SELECT * FROM {{ ref('int_assets_pit') }}),
 
 provisioned AS (
     SELECT

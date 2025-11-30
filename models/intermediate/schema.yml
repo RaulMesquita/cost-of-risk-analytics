@@ -2,7 +2,7 @@ version: 2
 
 models:
 
-  - name: int_assets
+  - name: int_assets_pit
     description: "Assets com rating point-in-time"
     columns:
       - name: created_at

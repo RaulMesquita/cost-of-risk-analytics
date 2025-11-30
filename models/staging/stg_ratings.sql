@@ -8,9 +8,7 @@ ratings AS (
         tax_id,
         rating
     FROM raw_ratings
-    WHERE 
-        rating IS NOT NULL
-        AND created_at IS NOT NULL
+    WHERE rating != 'G'
 )
 
 SELECT * FROM ratings

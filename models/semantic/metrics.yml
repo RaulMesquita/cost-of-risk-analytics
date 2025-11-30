@@ -2,7 +2,7 @@ version: 2
 
 semantic_models:
   - name: cost_of_risk_semantic_model
-    model: ref('mart_cost_of_risk')
+    model: ref('mrt_cost_of_risk')
     entities:
       - name: cohort_month
         type: primary

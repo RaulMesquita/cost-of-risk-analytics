@@ -18,8 +18,7 @@ joined AS (
     FROM a
     LEFT JOIN r
         ON a.buyer_tax_id = r.buyer_tax_id
-        AND a.created_at >= r.valid_from
-        AND a.created_at <  r.valid_to
+        AND a.created_at >= r.rating_created_at
     QUALIFY ROW_NUMBER() OVER (
         PARTITION BY a.buyer_tax_id, a.created_at
         ORDER BY r.valid_from DESC

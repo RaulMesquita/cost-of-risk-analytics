@@ -158,7 +158,6 @@ This enables BI tools to query metrics without SQL.
 
 ### **Intermediate**
 - PIT correctness
-- rating-to-asset relationship tests
 - overdue/default consistency
 
 ### **Marts**
@@ -195,11 +194,6 @@ This allows users to compare the performance of different vintages of assets:
 - Are newer cohorts originating with better or worse risk quality?
 - How does default or overdue behavior evolve as each cohort ages?
 
-**Example BI visualizations:**
-- Cohort heatmap of `avg_provision_rate`
-- Trend lines comparing cohorts over time
-- Cohort table with default_rate and overdue_rate
-
 ---
 
 ### 🎯 2. Segment (Risk Bucket)
@@ -211,11 +205,6 @@ Users can analyze how Cost of Risk behaves across different levels of buyer risk
 - How do provision rates vary by segment within each cohort?
 - How do sellers perform across different risk buckets?
 
-**Example BI visualizations:**
-- Bar charts of Cost of Risk by segment
-- Segment + Cohort matrix
-- Risk distribution pie/stacked charts
-
 ---
 
 ### 🏷️ 3. Seller (Optional Breakdown)
@@ -226,11 +215,6 @@ Users can evaluate portfolio quality by originator:
 - Are certain sellers improving or worsening over time?
 - Is risk concentrated in a small number of sellers?
 
-**Example BI visualizations:**
-- Seller risk ranking tables
-- Seller contribution to default_rate
-- Cohort vs Seller comparison dashboards
-
 ---
 
 ### ⏱️ 4. Time (Reporting Date)
@@ -240,10 +224,5 @@ Allows monitoring the evolution of the portfolio over time:
 - How is Cost of Risk trending month over month?
 - Are default and overdue rates increasing?
 - How quickly are assets being settled per cohort?
-
-**Example BI visualizations:**
-- Time-series charts of Cost of Risk
-- Rolling default_rate plots
-- Settled vs Overdue vs Default stacked timelines
 
 ---

@@ -12,11 +12,18 @@ base AS (
     SELECT
         CAST(DATE_TRUNC(created_at, MONTH) AS DATE) AS cohort_month,
         seller_name,
-        buyer_state AS segment,
+        buyer_state,
         face_value,
         origin_rating,
         due_date,
         settled_at,
+
+        CASE
+            WHEN origin_rating IN ('A', 'B') THEN 'Low Risk'
+            WHEN origin_rating IN ('C', 'D') THEN 'Medium Risk'
+            WHEN origin_rating IN ('E', 'F') THEN 'High Risk'
+            ELSE 'Unknown'
+        END AS segment,
 
         CASE 
             WHEN settled_at IS NOT NULL THEN 1 
@@ -70,7 +77,4 @@ SELECT
     SUM(CASE WHEN overdue_flag = 1 THEN face_value ELSE 0 END) AS overdue_face_value,
     SUM(CASE WHEN default_flag = 1 THEN face_value ELSE 0 END) AS default_face_value
 FROM logic
-GROUP BY
-    cohort_month,
-    segment,
-    seller_name
+GROUP BY ALL

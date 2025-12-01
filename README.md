@@ -173,3 +173,4 @@ This enables BI tools to query metrics without SQL.
 
 Below is a **logical view** of how data flows in the pipeline:
 
+<img width="1752" height="634" alt="lineage" src="https://github.com/user-attachments/assets/ab43e36c-3440-4c24-912e-0d84201dafe8" />

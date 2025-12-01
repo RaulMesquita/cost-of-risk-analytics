@@ -11,7 +11,7 @@ WITH dates AS (
         EXTRACT(YEAR FROM DAY) AS date_year
     FROM UNNEST(
         GENERATE_DATE_ARRAY(
-            DATE("2015-01-01"),
+            DATE("2024-01-01"),
             CURRENT_DATE(),
             INTERVAL 1 DAY
         )

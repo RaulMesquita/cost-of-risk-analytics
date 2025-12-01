@@ -4,7 +4,7 @@
         target_schema='snapshots',
         unique_key='tax_id',
         strategy='timestamp',
-        updated_at='created_at'
+        updated_at='rating_created_at'
     )
 }}
 

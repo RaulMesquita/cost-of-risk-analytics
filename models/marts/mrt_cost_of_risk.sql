@@ -1,7 +1,5 @@
 {{ config(
     materialized='table',
-    partition_by={"field": "cohort_month", "data_type": "date"},
-    cluster_by=["segment", "seller_name"]
 ) }}
 
 WITH 

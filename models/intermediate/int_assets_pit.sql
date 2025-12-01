@@ -21,7 +21,7 @@ joined AS (
         AND a.created_at >= r.rating_created_at
     QUALIFY ROW_NUMBER() OVER (
         PARTITION BY a.buyer_tax_id, a.created_at
-        ORDER BY r.valid_from DESC
+        ORDER BY r.rating_created_at DESC
     ) = 1
 )
 

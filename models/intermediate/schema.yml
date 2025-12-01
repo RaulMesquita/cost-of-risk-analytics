@@ -2,34 +2,60 @@ version: 2
 
 models:
 
-  - name: int_assets_pit
-    description: "Assets com rating point-in-time"
+  - name: int_ratings_pit
+    description: >
+      Builds rating validity windows (valid_from → valid_to)
+      using LEAD() to prepare PIT resolution.
     columns:
-      - name: created_at
-        description: "Timestamp when the asset was created (origination date)."
-      - name: face_value
-        description: "Original financial value of the asset."
-      - name: settled_at
-        description: "Timestamp when the asset was settled. Null indicates unpaid."
-      - name: due_date
-        description: "Date when the asset was due. Used to determine overdue status."
       - name: buyer_tax_id
-        description: "Unique identifier for the buyer, used to match historical ratings."
-      - name: seller_name
-        description: "Name of the seller (originator) of the asset."
-      - name: buyer_state
-        description: "Geographical segment of the buyer, used for aggregation."
-      - name: collection_status
-        description: "Status of the asset's repayment or collection."
-      - name: origin_rating
-        description: |
-          Rating assigned to the buyer at the time the asset was originated.
-          Selected using a point-in-time (PIT) lookup: the most recent rating
-          before or on the asset creation timestamp.
         tests:
-          - not_null:
-              severity: warn
-      - name: cohort_month
-        description: |
-          Monthly cohort derived from asset creation date. Used for aggregation
-          and performance tracking across time.
+          - not_null
+
+      - name: rating
+        tests:
+          - not_null
+
+      - name: valid_from
+        tests:
+          - not_null
+
+      - name: valid_to
+        tests:
+          - not_null
+
+    tests:
+      - unique:
+          column_name: "(buyer_tax_id || '-' || valid_from)"
+      - relationships:
+          field: buyer_tax_id
+          to: ref('stg_ratings')
+          column: buyer_tax_id
+
+
+  - name: int_assets_pit
+    description: >
+      Performs Point-in-Time (PIT) join between assets and rating windows.
+      Ensures origin_rating is correct for asset creation date.
+    columns:
+      - name: buyer_tax_id
+        tests:
+          - not_null
+
+      - name: created_at
+        tests:
+          - not_null
+
+      - name: origin_rating
+        description: "Rating active at the time of asset origination."
+        tests:
+          - not_null
+
+    tests:
+      - relationships:
+          field: buyer_tax_id
+          to: ref('stg_assets')
+          column: buyer_tax_id
+      - relationships:
+          field: origin_rating
+          to: ref('dim_rating')
+          column: rating

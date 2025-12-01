@@ -10,7 +10,7 @@ dim_rating AS (SELECT * FROM {{ ref('dim_rating') }}),
 
 base AS (
     SELECT
-        DATE_TRUNC(created_at, MONTH) AS cohort_month,
+        CAST(DATE_TRUNC(created_at, MONTH) AS DATE) AS cohort_month,
         seller_name,
         buyer_state AS segment,
         face_value,

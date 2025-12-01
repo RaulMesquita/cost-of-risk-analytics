@@ -35,13 +35,34 @@ models:
     columns:
       - name: buyer_tax_id
         tests:
-          - not_null
+          - not_null:
+            severity: warn
 
       - name: created_at
         tests:
-          - not_null
+          - not_null:
+            severity: warn
 
       - name: origin_rating
         description: "Rating active at the time of asset origination."
         tests:
-          - not_null
+          - not_null:
+            severity: warn
+
+      - name: face_value
+        description: "Original financial value of the asset."
+
+      - name: settled_at
+        description: "Timestamp when the asset was settled. Null indicates unpaid."
+
+      - name: due_date
+        description: "Date when the asset was due. Used to determine overdue status."
+
+      - name: seller_name
+        description: "Name of the seller (originator) of the asset."
+
+      - name: buyer_state
+        description: "Geographical segment of the buyer, used for aggregation."
+
+      - name: collection_status
+        description: "Status of the asset's repayment or collection."

@@ -29,7 +29,7 @@ models:
       - relationships:
           field: buyer_tax_id
           to: ref('stg_ratings')
-          column: buyer_tax_id
+          to_field: buyer_tax_id
 
 
   - name: int_assets_pit
@@ -54,8 +54,8 @@ models:
       - relationships:
           field: buyer_tax_id
           to: ref('stg_assets')
-          column: buyer_tax_id
+          to_field: buyer_tax_id
       - relationships:
           field: origin_rating
           to: ref('dim_rating')
-          column: rating
+          to_field: rating

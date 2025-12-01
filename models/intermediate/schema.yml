@@ -27,9 +27,9 @@ models:
       - unique:
           column_name: "(buyer_tax_id || '-' || valid_from)"
       - relationships:
-          field: buyer_tax_id
-          to: ref('stg_ratings')
-          to_field: buyer_tax_id
+          arguments:
+            to: ref('stg_ratings')
+            field: buyer_tax_id
 
 
   - name: int_assets_pit
@@ -52,10 +52,10 @@ models:
 
     tests:
       - relationships:
-          field: buyer_tax_id
-          to: ref('stg_assets')
-          to_field: buyer_tax_id
+          arguments:
+            to: ref('stg_assets')
+            field: buyer_tax_id
       - relationships:
-          field: origin_rating
-          to: ref('dim_rating')
-          to_field: rating
+          arguments:
+            to: ref('dim_rating')
+            field: origin_rating

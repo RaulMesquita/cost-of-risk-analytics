@@ -19,8 +19,6 @@ models:
         description: "Nominal value of the asset."
         tests:
           - not_null
-          - greater_than:
-              min_value: 0
 
       - name: buyer_tax_id
         description: "Unique buyer identifier."

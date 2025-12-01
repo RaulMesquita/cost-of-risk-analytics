@@ -112,7 +112,7 @@ END AS provision_rate
 ### **Output Grain:**
 (cohort_month, segment, seller_name)
 
-### Output Metrics:**
+### **Output Metrics:**
 - total_face_value
 - cost_of_risk
 - avg_provision_rate
@@ -125,7 +125,7 @@ END AS provision_rate
 
 ## 🧠 7. **Semantic Layer (metrics.yml)**
 
-### The semantic model defines:**
+### **The semantic model defines:**
 
 ### **Dimensions**
 - cohort_month
@@ -169,8 +169,81 @@ This enables BI tools to query metrics without SQL.
 ### **Seeds**
 - unique & not_null on rating
 
+---
+
 ## 🔁 9. **Data Lineage Graph (Data Flow)**
 
 Below is a **logical view** of how data flows in the pipeline:
 
 <img width="1752" height="634" alt="lineage" src="https://github.com/user-attachments/assets/ab43e36c-3440-4c24-912e-0d84201dafe8" />
+
+---
+
+## 📊 How a Business User Would Slice This Metric (Cohort, Segment, Time)
+
+The dbt Semantic Layer exposes standardized dimensions that allow any BI tool 
+(Tableau, Looker Studio, Power BI, Google Sheets) to explore **Cost of Risk**
+without writing SQL. A business user can slice and drill down into the metric using:
+
+---
+
+### 🗂️ 1. Cohort (Origination Month)
+**Dimension:** `cohort_month`
+
+This allows users to compare the performance of different vintages of assets:
+- Which cohorts have higher Cost of Risk?
+- Are newer cohorts originating with better or worse risk quality?
+- How does default or overdue behavior evolve as each cohort ages?
+
+**Example BI visualizations:**
+- Cohort heatmap of `avg_provision_rate`
+- Trend lines comparing cohorts over time
+- Cohort table with default_rate and overdue_rate
+
+---
+
+### 🎯 2. Segment (Risk Bucket)
+**Dimension:** `segment`  
+(derived from rating buckets: Low / Medium / High Risk)
+
+Users can analyze how Cost of Risk behaves across different levels of buyer risk:
+- Are High-Risk segments driving most of the expected losses?
+- How do provision rates vary by segment within each cohort?
+- How do sellers perform across different risk buckets?
+
+**Example BI visualizations:**
+- Bar charts of Cost of Risk by segment
+- Segment + Cohort matrix
+- Risk distribution pie/stacked charts
+
+---
+
+### 🏷️ 3. Seller (Optional Breakdown)
+**Dimension:** `seller_name`
+
+Users can evaluate portfolio quality by originator:
+- Which sellers originate the riskiest assets?
+- Are certain sellers improving or worsening over time?
+- Is risk concentrated in a small number of sellers?
+
+**Example BI visualizations:**
+- Seller risk ranking tables
+- Seller contribution to default_rate
+- Cohort vs Seller comparison dashboards
+
+---
+
+### ⏱️ 4. Time (Reporting Date)
+**Dimension:** `date_day` or derived `date_month` from the time spine
+
+Allows monitoring the evolution of the portfolio over time:
+- How is Cost of Risk trending month over month?
+- Are default and overdue rates increasing?
+- How quickly are assets being settled per cohort?
+
+**Example BI visualizations:**
+- Time-series charts of Cost of Risk
+- Rolling default_rate plots
+- Settled vs Overdue vs Default stacked timelines
+
+---

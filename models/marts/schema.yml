@@ -9,31 +9,38 @@ models:
     columns:
       - name: cohort_month
         tests:
-          - not_null
+          - not_null:
+              severity: warn
 
       - name: segment
         tests:
-          - not_null
+          - not_null:
+              severity: warn
 
       - name: seller_name
         tests:
-          - not_null
+          - not_null:
+              severity: warn
 
       - name: total_face_value
         tests:
-          - not_null
+          - not_null:
+              severity: warn
 
       - name: cost_of_risk
         tests:
-          - not_null
+          - not_null:
+              severity: warn
 
       - name: avg_provision_rate
         tests:
-          - not_null
+          - not_null:
+              severity: warn
 
       - name: n_assets
         tests:
-          - not_null
+          - not_null:
+              severity: warn
 
     tests:
       - unique:

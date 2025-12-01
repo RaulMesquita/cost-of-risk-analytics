@@ -5,7 +5,7 @@
 
 ## 🧭 1. **Project Objective**
 
-This project implements a full analytical pipeline using **dbt + BigQuery** to compute **Cost of Risk** for loan origination cohorts using **Point-in-Time (PIT)** logic.
+This project implements a analytical pipeline to compute **Cost of Risk** for loan origination cohorts using **Point-in-Time (PIT)** logic.
 
 The output is a trustworthy, auditable, and BI-ready dataset consumed by:
 
@@ -84,109 +84,87 @@ PIT ensures:
 
 Managed via a dbt **seed** (`seeds/dim_rating.csv`):
 
-```csv
-rating,provision_rate
-A,0.01
-B,0.05
-C,0.10
-D,0.20
-E,0.30
-F,0.40
+| rating | provision_rate |
+|--------|----------------|
+| A | 0.01 |
+| B | 0.05 |
+| C | 0.10 |
+| D | 0.20 |
+| E | 0.30 |
+| F | 0.40 |
 
 This avoids hardcoding business logic inside models.
+
+---
 
 ## 📈 6. Final Gold Model (mrt_cost_of_risk)**
 
 This model computes the final provision rate using the correct business priority:
 
+```
 CASE
   WHEN settled_flag = 1 THEN 0.00
   WHEN default_flag = 1 THEN 1.00
   ELSE base_rate
 END AS provision_rate
+```
 
-Output Grain:
-
+### **Output Grain:**
 (cohort_month, segment, seller_name)
 
-Output Metrics:
+### Output Metrics:**
+- total_face_value
+- cost_of_risk
+- avg_provision_rate
+- n_assets
+- settled_face_value
+- overdue_face_value
+- default_face_value
 
-total_face_value
+---
 
-cost_of_risk
+## 🧠 7. Semantic Layer (metrics.yml)**
 
-avg_provision_rate
+### The semantic model defines:**
 
-n_assets
+### **Dimensions**
+- cohort_month
+- segment
+- seller_name
 
-settled_face_value
+### **Measures**
+- cost_of_risk
+- total_face_value
+- n_assets
+- overdue_face_value
+- default_face_value
+- settled_face_value
 
-overdue_face_value
-
-default_face_value
-
-🧠 7. Semantic Layer (metrics.yml)
-
-The semantic model defines:
-
-Dimensions
-
-cohort_month
-
-segment
-
-seller_name
-
-Measures
-
-cost_of_risk
-
-total_face_value
-
-n_assets
-
-overdue_face_value
-
-default_face_value
-
-settled_face_value
-
-Derived Metrics
-
-avg_provision_rate_ratio = cost_of_risk / total_face_value
-
-default_rate = default_face_value / total_face_value
-
-overdue_rate = overdue_face_value / total_face_value
+### **Derived Metrics**
+- avg_provision_rate_ratio = cost_of_risk / total_face_value
+- default_rate = default_face_value / total_face_value
+- overdue_rate = overdue_face_value / total_face_value
 
 This enables BI tools to query metrics without SQL.
 
-🧪 8. Testing Strategy
-Staging
+---
 
-not_null on key fields
+## 🧪 8. Testing Strategy**
 
-duplicate prevention
+### **Staging**
+- not_null on key fields
+- duplicate prevention
+- type validations
 
-type validations
+### **Intermediate**
+- PIT correctness
+- rating-to-asset relationship tests
+- overdue/default consistency
 
-Intermediate
+### **Marts**
+- unique grain:
+- cohort_month, segment, seller_name
+- not_null on metrics
 
-PIT correctness
-
-rating-to-asset relationship tests
-
-overdue/default consistency
-
-Marts
-
-unique grain:
-
-cohort_month, segment, seller_name
-
-
-not_null on metrics
-
-Seeds
-
-unique & not_null on rating
+### **Seeds**
+- unique & not_null on rating

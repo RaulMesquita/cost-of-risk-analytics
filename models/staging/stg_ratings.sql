@@ -15,7 +15,7 @@ dedup AS (
         rating_created_at,
         buyer_tax_id,
         rating
-    FROM assets
+    FROM ratings
     QUALIFY ROW_NUMBER() OVER (
         PARTITION BY buyer_tax_id, rating_created_at
         ORDER BY rating_created_at DESC

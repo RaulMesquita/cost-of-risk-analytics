@@ -9,7 +9,7 @@
 }}
 
 SELECT
-    created_at,
+    rating_created_at,
     tax_id,
     rating
 FROM {{ ref('stg_ratings') }}

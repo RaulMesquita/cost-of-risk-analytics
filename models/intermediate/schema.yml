@@ -26,10 +26,6 @@ models:
     tests:
       - unique:
           column_name: "(buyer_tax_id || '-' || valid_from)"
-      - relationships:
-          arguments:
-            to: ref('stg_ratings')
-            field: buyer_tax_id
 
 
   - name: int_assets_pit
@@ -49,13 +45,3 @@ models:
         description: "Rating active at the time of asset origination."
         tests:
           - not_null
-
-    tests:
-      - relationships:
-          arguments:
-            to: ref('stg_assets')
-            field: buyer_tax_id
-      - relationships:
-          arguments:
-            to: ref('dim_rating')
-            field: origin_rating

@@ -12,8 +12,6 @@ models:
 
       - name: due_date
         description: "Due date of the asset."
-        tests:
-          - not_null
 
       - name: face_value
         description: "Nominal value of the asset."

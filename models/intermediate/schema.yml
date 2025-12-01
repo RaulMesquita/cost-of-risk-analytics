@@ -36,18 +36,18 @@ models:
       - name: buyer_tax_id
         tests:
           - not_null:
-            severity: warn
+              severity: warn
 
       - name: created_at
         tests:
           - not_null:
-            severity: warn
+              severity: warn
 
       - name: origin_rating
         description: "Rating active at the time of asset origination."
         tests:
           - not_null:
-            severity: warn
+              severity: warn
 
       - name: face_value
         description: "Original financial value of the asset."

@@ -64,7 +64,7 @@ SELECT
     seller_name,
     SUM(face_value) AS total_face_value,
     SUM(face_value * provision_rate) AS cost_of_risk,
-    SUM(face_value * provision_rate) / SUM(face_value) AS avg_provision_rate,
+    SAFE_DIVIDE(SUM(face_value * provision_rate), SUM(face_value)) AS avg_provision_rate,
     COUNT(*) AS n_assets,
     SUM(CASE WHEN settled_flag = 1 THEN face_value ELSE 0 END) AS settled_face_value,
     SUM(CASE WHEN overdue_flag = 1 THEN face_value ELSE 0 END) AS overdue_face_value,

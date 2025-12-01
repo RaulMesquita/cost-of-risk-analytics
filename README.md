@@ -168,3 +168,8 @@ This enables BI tools to query metrics without SQL.
 
 ### **Seeds**
 - unique & not_null on rating
+
+## 🔁 9. **Data Lineage Graph (Data Flow)**
+
+Below is a **logical view** of how data flows in the pipeline:
+

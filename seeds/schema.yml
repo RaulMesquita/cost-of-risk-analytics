@@ -1,0 +1,13 @@
+seeds:
+
+  - name: dim_rating
+    description: "Mapping between buyer rating and provision rate for active (non-settled) loans."
+    columns:
+      - name: rating
+        tests:
+          - unique
+          - not_null
+
+      - name: provision_rate
+        tests:
+          - not_null

@@ -4,7 +4,7 @@ WITH
 a AS (SELECT * FROM {{ ref('stg_assets')}}),
 r AS (SELECT * FROM {{ ref('stg_ratings')}}),
 
-ratings_pit AS (
+joined AS (
     SELECT
         a.created_at,
         a.face_value,
@@ -17,12 +17,13 @@ ratings_pit AS (
         r.rating as origin_rating
     FROM a
     LEFT JOIN r
-        ON a.buyer_tax_id = r.tax_id
-        AND r.created_at <= a.created_at
+        ON a.buyer_tax_id = r.buyer_tax_id
+        AND a.created_at >= r.valid_from
+        AND a.created_at <  r.valid_to
     QUALIFY ROW_NUMBER() OVER (
         PARTITION BY a.buyer_tax_id, a.created_at
-        ORDER BY r.created_at DESC
+        ORDER BY r.valid_from DESC
     ) = 1
 )
 
-SELECT * FROM ratings_pit
+SELECT * FROM joined

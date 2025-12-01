@@ -2,68 +2,131 @@ version: 2
 
 semantic_models:
   - name: cost_of_risk_semantic_model
+    description: "Semantic model for Cost of Risk by origination cohort, segment and seller."
     model: ref('mrt_cost_of_risk')
 
     defaults:
       agg_time_dimension: cohort_month
 
     entities:
-      - name: cost_record
+      - name: cohort_seller_segment
         type: primary
-        expr: risk_id
+        expr: "concat(cast(cohort_month as string), '||', coalesce(segment, ''), '||', coalesce(seller_name, ''))"
 
     dimensions:
       - name: cohort_month
-        description: "Month of cohort grouping"
+        description: "Origination cohort month of the assets in the group."
         type: time
         type_params:
           time_granularity: month
 
       - name: segment
-        description: "Segment identifier for risk records"
+        description: "Segment or buyer group (e.g. buyer_state)."
         type: categorical
 
       - name: seller_name
-        description: "Name of the seller associated with the risk record"
+        description: "Name of the seller for the assets in the cohort."
         type: categorical
 
     measures:
-      - name: cost_of_risk
-        label: "Cost of Risk"
-        description: "Sum of cost_of_risk column for each record"
-        agg: sum
-        expr: cost_of_risk
-
       - name: total_face_value
         label: "Total Face Value"
-        description: "Sum of total_face_value column for each record"
-        agg: sum
+        description: "Sum of face value for assets in each cohort/segment/seller group."
         expr: total_face_value
+        agg: sum
+
+      - name: cost_of_risk
+        label: "Cost of Risk"
+        description: "Total expected loss (Cost of Risk) for the group."
+        expr: cost_of_risk
+        agg: sum
+
+      - name: n_assets
+        label: "Number of Assets"
+        description: "Number of assets in the group."
+        expr: n_assets
+        agg: sum
+
+      - name: settled_face_value
+        label: "Settled Face Value"
+        description: "Face value that was fully settled (paid) in the group."
+        expr: settled_face_value
+        agg: sum
+
+      - name: overdue_face_value
+        label: "Overdue Face Value"
+        description: "Face value that was overdue (settled after due_date) in the group."
+        expr: overdue_face_value
+        agg: sum
+
+      - name: default_face_value
+        label: "Defaulted Face Value"
+        description: "Face value that went into default (over 30 days overdue) in the group."
+        expr: default_face_value
+        agg: sum
 
       - name: avg_provision_rate
-        label: "Avg Provision Rate"
-        description: "Average of avg_provision_rate column for each record"
-        agg: average
+        label: "Average Provision Rate (pre-computed)"
+        description: "Average provision rate stored in the mart. For explorations simples."
         expr: avg_provision_rate
+        agg: average
 
 metrics:
   - name: cost_of_risk
     label: "Cost of Risk"
-    description: "Total cost of risk — sum of cost_of_risk measure."
+    description: "Total Cost of Risk over the selected grain/frame."
     type: simple
     type_params:
       measure: cost_of_risk
 
   - name: total_face_value
     label: "Total Face Value"
-    description: "Total face value — sum of total_face_value measure."
+    description: "Total face value over the selected grain/frame."
     type: simple
     type_params:
       measure: total_face_value
 
-  - name: avg_provision_rate
-    label: "Average Provision Rate"
-    description: "Average provision rate — same as avg_provision_rate measure."
+  - name: n_assets
+    label: "Number of Assets"
+    description: "Total number of assets."
     type: simple
     type_params:
-      measure: avg_provision_rate
+      measure: n_assets
+
+  - name: overdue_face_value
+    label: "Overdue Face Value"
+    description: "Total face value that was overdue (settled after due_date)."
+    type: simple
+    type_params:
+      measure: overdue_face_value
+
+  - name: default_face_value
+    label: "Defaulted Face Value"
+    description: "Total face value that went into default (> 30 days overdue)."
+    type: simple
+    type_params:
+      measure: default_face_value
+
+  - name: avg_provision_rate_ratio
+    label: "Average Provision Rate (ratio)"
+    description: "Average provision rate as Cost of Risk divided by total face value."
+    type: ratio
+    type_params:
+      numerator: cost_of_risk
+      denominator: total_face_value
+
+  - name: default_rate
+    label: "Default Rate"
+    description: "Share of face value that went into default (>30 days overdue)."
+    type: ratio
+    type_params:
+      numerator: default_face_value
+      denominator: total_face_value
+
+  - name: overdue_rate
+    label: "Overdue Rate"
+    description: "Share of face value that was overdue (settled after due_date)."
+    type: ratio
+    type_params:
+      numerator: overdue_face_value
+      denominator: total_face_value

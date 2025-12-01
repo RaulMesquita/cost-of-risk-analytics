@@ -97,7 +97,7 @@ This avoids hardcoding business logic inside models.
 
 ---
 
-## 📈 6. Final Gold Model (mrt_cost_of_risk)**
+## 📈 6. **Final Gold Model (mrt_cost_of_risk)**
 
 This model computes the final provision rate using the correct business priority:
 
@@ -123,7 +123,7 @@ END AS provision_rate
 
 ---
 
-## 🧠 7. Semantic Layer (metrics.yml)**
+## 🧠 7. **Semantic Layer (metrics.yml)**
 
 ### The semantic model defines:**
 
@@ -149,7 +149,7 @@ This enables BI tools to query metrics without SQL.
 
 ---
 
-## 🧪 8. Testing Strategy**
+## 🧪 8. **Testing Strategy**
 
 ### **Staging**
 - not_null on key fields
